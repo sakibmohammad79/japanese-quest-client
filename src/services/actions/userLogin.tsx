@@ -11,6 +11,7 @@ export const UserLogin = async (value: FieldValues) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(value),
+      cache: "no-store",
     }
   );
   const userInfo = await res.json();

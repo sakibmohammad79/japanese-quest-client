@@ -22,7 +22,7 @@ const userApi = baseApi.injectEndpoints({
       }),
       transformResponse: (response: any, meta: TMeta) => {
         return {
-          admins: response,
+          users: response,
           meta,
         };
       },
@@ -70,4 +70,4 @@ const userApi = baseApi.injectEndpoints({
   }),
 });
 
-export const {} = userApi;
+export const { useGetAllUserQuery, useDeleteUserMutation } = userApi;
