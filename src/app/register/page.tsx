@@ -1,32 +1,31 @@
 "use client";
-
 import JPFileUpload from "@/Forms/JPFileUploader";
 import JPForm from "@/Forms/JPForm";
 import JPInput from "@/Forms/JPInput";
 import { UserRegister } from "@/services/actions/UserRegister";
-import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+import { useState } from "react";
 
-// const defaultValues = {
-//   firstName: "",
-//   lastName: "",
-//   email: "",
-//   password: "",
-//   role: "",
-//   gender: "",
-//   contactNumber: "",
-//   address: "",
-// };
 const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
 
 const RegisterPage = () => {
-  // const router = useRouter();
+  const [loading, setLoading] = useState(false); // State to handle loading
+
   const handleRegister = async (value: FieldValues) => {
     console.log("Input values:", value);
+    setLoading(true); // Start loading
     try {
       const file = value.file;
       if (!file) {
@@ -45,11 +44,9 @@ const RegisterPage = () => {
           body: formData,
         }
       );
-
       if (!imgUploadResponse.ok) {
         throw new Error("Failed to upload image to imgBB.");
       }
-
       const imgUploadData = await imgUploadResponse.json();
       if (!imgUploadData.success) {
         throw new Error("Image upload failed. Please try again.");
@@ -76,14 +73,14 @@ const RegisterPage = () => {
           userResponse?.data?.message || "User created successfully!"
         );
       } else {
-        throw new Error(
-          userResponse?.data?.message || "Unknown error during registration."
-        );
+        toast.error(userResponse?.message);
       }
     } catch (err: any) {
       // Handle errors
       console.error("Error in handleRegister:", err);
       toast.error(err.message || "An unexpected error occurred.");
+    } finally {
+      setLoading(false); // Stop loading after the request is completed
     }
   };
 
@@ -110,7 +107,7 @@ const RegisterPage = () => {
                 width={80}
                 src="https://img.icons8.com/stickers/50/language.png"
                 alt="Pet-icon"
-              ></Image>
+              />
             </Box>
             <Box>
               <Typography fontSize={24} fontWeight="bold">
@@ -122,7 +119,7 @@ const RegisterPage = () => {
           <Box sx={{ py: 2 }}>
             <JPForm
               onSubmit={handleRegister}
-              // resolver={zodResolver(registerValidationSchema)}
+              // resolver={zodResolver(userRegisterValidationSchema)}
               // defaultValues={defaultValues}
             >
               <Grid container spacing={3}>
@@ -146,24 +143,24 @@ const RegisterPage = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
-                  <JPFileUpload
-                    label="Photo"
-                    name="file"
-                    // fullWidth={true}
-                    // type="password"
-                  />
+                  <JPFileUpload label="Photo" name="file" />
                 </Grid>
               </Grid>
               <Button
                 type="submit"
                 fullWidth={true}
                 sx={{ backgroundColor: "ActiveBorder", mt: 3, mb: 2 }}
+                disabled={loading} // Disable button while loading
               >
-                Please Register
+                {loading ? (
+                  <CircularProgress size={24} sx={{ color: "white" }} />
+                ) : (
+                  "Please Register"
+                )}
               </Button>
             </JPForm>
             <Typography align="center">
-              Alrady have an acount? please{" "}
+              Already have an account? Please{" "}
               <Link href="/login">
                 <Box component="span" color="primary.main" fontWeight="bold">
                   Login
