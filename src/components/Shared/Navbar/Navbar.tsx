@@ -22,14 +22,14 @@ const drawerWidth = 240;
 const navItems = ["Home", "About", "Contact"];
 
 export default function Navbar() {
-  //   const AuthButtonLg = dynamic(
-  //     () => import("@/components/UI/AuthButton/AuthButtonLg"),
-  //     { ssr: false }
-  //   );
-  //   const AuthButtonSm = dynamic(
-  //     () => import("@/components/UI/AuthButton/AuthButtonSm"),
-  //     { ssr: false }
-  //   );
+  const AuthButtonLg = dynamic(
+    () => import("@/components/UI/AuthButton/AuthButtonLg"),
+    { ssr: false }
+  );
+  const AuthButtonSm = dynamic(
+    () => import("@/components/UI/AuthButton/AuthButtonSm"),
+    { ssr: false }
+  );
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -101,7 +101,7 @@ export default function Navbar() {
                 <Typography>Contact</Typography>
               </Link>
             </Box>
-            {/* <AuthButtonLg></AuthButtonLg> */}
+            <AuthButtonLg></AuthButtonLg>
           </Stack>
         </Toolbar>
       </AppBar>
@@ -123,7 +123,7 @@ export default function Navbar() {
         >
           {drawer}
 
-          {/* <AuthButtonSm></AuthButtonSm> */}
+          <AuthButtonSm></AuthButtonSm>
         </Drawer>
       </nav>
     </Box>

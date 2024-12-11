@@ -17,22 +17,27 @@ import Link from "next/link";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { useState } from "react";
+import { UserLogin } from "@/services/actions/userLogin";
+import { storeUserInfo } from "@/services/auth.services";
+import { useRouter } from "next/navigation";
 
 const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
 
 const RegisterPage = () => {
   const [loading, setLoading] = useState(false); // State to handle loading
 
+  const router = useRouter();
   const handleRegister = async (value: FieldValues) => {
     console.log("Input values:", value);
     setLoading(true); // Start loading
+
     try {
+      // Check if file is provided
       const file = value.file;
       if (!file) {
-        toast.error("Please upload a valid file");
+        toast.error("Please upload a valid file.");
         return;
       }
-
       // Upload image to imgBB
       const formData = new FormData();
       formData.append("image", file);
@@ -44,17 +49,16 @@ const RegisterPage = () => {
           body: formData,
         }
       );
+      // Check if image upload was successful
       if (!imgUploadResponse.ok) {
-        throw new Error("Failed to upload image to imgBB.");
+        throw new Error("Failed to upload image to imgBB. Please try again.");
       }
       const imgUploadData = await imgUploadResponse.json();
       if (!imgUploadData.success) {
         throw new Error("Image upload failed. Please try again.");
       }
-
       const imageUrl = imgUploadData?.data?.url;
       console.log("Image uploaded successfully:", imageUrl);
-
       // Prepare user registration payload
       const payload = {
         password: value.password,
@@ -65,20 +69,32 @@ const RegisterPage = () => {
         },
       };
       console.log("Payload for registration:", payload);
+
       // Register user
-      const userResponse = await UserRegister(payload);
-      console.log(userResponse);
-      if (userResponse?.data?.id) {
-        toast.success(
-          userResponse?.data?.message || "User created successfully!"
-        );
+      const registrationRes = await UserRegister(payload);
+      console.log(registrationRes);
+      // Check if user registration was successful
+      if (registrationRes?.success) {
+        // User login
+        const loginRes = await UserLogin({
+          email: payload.user.email,
+          password: payload.password,
+        });
+        // Check if login was successful
+        if (loginRes?.data?.accessToken) {
+          storeUserInfo(loginRes?.data?.accessToken);
+          router.push("/"); // Redirect to homepage
+          toast.success(registrationRes?.message);
+        } else {
+          toast.error(loginRes?.message);
+        }
       } else {
-        toast.error(userResponse?.message);
+        toast.error(registrationRes?.message);
       }
     } catch (err: any) {
-      // Handle errors
+      // Handle errors at any step
       console.error("Error in handleRegister:", err);
-      toast.error(err.message || "An unexpected error occurred.");
+      toast.error(err?.message);
     } finally {
       setLoading(false); // Stop loading after the request is completed
     }

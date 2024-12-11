@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { useState } from "react";
+import { storeUserInfo } from "@/services/auth.services";
 
 const defaultValues = {
   email: "",
@@ -26,6 +27,7 @@ const defaultValues = {
 };
 
 const LoginPage = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (data: FieldValues) => {
@@ -35,8 +37,9 @@ const LoginPage = () => {
       const res = await UserLogin(data);
       console.log(res);
       if (res?.data?.accessToken) {
+        storeUserInfo(res?.data?.accessToken);
+        router.push("/");
         toast.success(res?.message);
-        // redirect or store tokens here
       } else {
         toast.error(res?.message);
       }
