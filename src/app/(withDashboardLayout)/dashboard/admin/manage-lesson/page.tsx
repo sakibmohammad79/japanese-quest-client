@@ -24,7 +24,6 @@ const ManageLesson = () => {
   }
   const { data, isLoading } = useGetAllLessonQuery({ ...query });
   const lessons = data?.lessons;
-  console.log(lessons);
   const [deleteLesson] = useDeleteLessonMutation();
 
   const handleDelete = async (id: string) => {

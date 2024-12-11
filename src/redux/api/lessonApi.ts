@@ -5,15 +5,15 @@ import { tagTypes } from "../tagTypes";
 
 const lessonApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    // createUser: build.mutation({
-    //   query: (data) => ({
-    //     url: "/user",
-    //     method: "POST",
-    //     contentType: "application/json",
-    //     data,
-    //   }),
-    //   invalidatesTags: [tagTypes.user],
-    // }),
+    createLesson: build.mutation({
+      query: (data) => ({
+        url: "/lesson",
+        method: "POST",
+        contentType: "application/json",
+        data,
+      }),
+      invalidatesTags: [tagTypes.lesson],
+    }),
     getAllLesson: build.query({
       query: (arg: Record<string, any>) => ({
         url: "/lesson",
@@ -64,4 +64,8 @@ const lessonApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllLessonQuery, useDeleteLessonMutation } = lessonApi;
+export const {
+  useGetAllLessonQuery,
+  useDeleteLessonMutation,
+  useCreateLessonMutation,
+} = lessonApi;

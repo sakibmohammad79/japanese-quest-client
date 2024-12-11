@@ -1,19 +1,14 @@
 "use client";
-import { Box, Button, Chip, Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import Image from "next/image";
+
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDebounced } from "@/redux/hooks";
-import { useDeleteUserMutation, useGetAllUserQuery } from "@/redux/api/userApi";
-import {
-  useDeleteLessonMutation,
-  useGetAllLessonQuery,
-} from "@/redux/api/lessonApi";
 import {
   useDeleteVocabularyMutation,
   useGetAllVocabularyQuery,
@@ -28,7 +23,6 @@ const ManageVocabulary = () => {
   }
   const { data, isLoading } = useGetAllVocabularyQuery({ ...query });
   const vocabularies = data?.vocabularies;
-  console.log(vocabularies);
   const [deleteVocabulary] = useDeleteVocabularyMutation();
 
   const handleDelete = async (id: string) => {
@@ -55,7 +49,6 @@ const ManageVocabulary = () => {
     }
   };
 
-  // Handle different states
   if (isLoading) {
     return (
       <Box sx={{ display: "flex" }}>
@@ -71,13 +64,6 @@ const ManageVocabulary = () => {
       align: "center",
       headerAlign: "center",
       flex: 1,
-      //   renderCell: ({ row }) => {
-      //     return (
-      //       <Box>
-      //         <Typography>{row?.name}</Typography>
-      //       </Box>
-      //     );
-      //   },
     },
     {
       field: "pronunciation",

@@ -5,15 +5,15 @@ import { tagTypes } from "../tagTypes";
 
 const vocabularyApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    // createUser: build.mutation({
-    //   query: (data) => ({
-    //     url: "/user",
-    //     method: "POST",
-    //     contentType: "application/json",
-    //     data,
-    //   }),
-    //   invalidatesTags: [tagTypes.user],
-    // }),
+    createVocabulary: build.mutation({
+      query: (data) => ({
+        url: "/vocabulary",
+        method: "POST",
+        contentType: "application/json",
+        data,
+      }),
+      invalidatesTags: [tagTypes.vocabulary],
+    }),
     getAllVocabulary: build.query({
       query: (arg: Record<string, any>) => ({
         url: "/vocabulary",
@@ -64,5 +64,8 @@ const vocabularyApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllVocabularyQuery, useDeleteVocabularyMutation } =
-  vocabularyApi;
+export const {
+  useGetAllVocabularyQuery,
+  useDeleteVocabularyMutation,
+  useCreateVocabularyMutation,
+} = vocabularyApi;
