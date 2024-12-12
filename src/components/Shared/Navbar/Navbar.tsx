@@ -89,17 +89,17 @@ export default function Navbar() {
             </Link>
             <Box sx={{ display: { xs: "none", sm: "flex", gap: 32 } }}>
               <Link href="/">
-                <Typography>Home</Typography>
+                <Typography>HOME</Typography>
               </Link>
-              <Link href="/pet-list">
-                <Typography>Pet List</Typography>
+              <Link href="/lesson">
+                <Typography>LESSON</Typography>
               </Link>
-              <Link href="/">
-                <Typography>About</Typography>
+              <Link href="/tutorial">
+                <Typography>TUTORIAL</Typography>
               </Link>
-              <Link href="/">
+              {/* <Link href="/">
                 <Typography>Contact</Typography>
-              </Link>
+              </Link> */}
             </Box>
             <AuthButtonLg></AuthButtonLg>
           </Stack>
