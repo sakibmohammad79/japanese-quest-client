@@ -1,7 +1,10 @@
 import JPModal from "@/components/Shared/Modal/JPModal";
 import JPForm from "@/Forms/JPForm";
 import JPInput from "@/Forms/JPInput";
-import { useUpdateUserMutation } from "@/redux/api/userApi";
+import {
+  useGetSingleUserQuery,
+  useUpdateUserMutation,
+} from "@/redux/api/userApi";
 import { getUserInfo } from "@/services/auth.services";
 import { Button, CircularProgress, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -18,6 +21,7 @@ const UserModal = ({ open, setOpen }: IModalProps) => {
     const { userId } = getUserInfo();
     setUserId(userId);
   }, []);
+  const { data } = useGetSingleUserQuery(userId);
   const [loading, setLoading] = useState(false);
 
   const [updateUser] = useUpdateUserMutation();
@@ -44,7 +48,12 @@ const UserModal = ({ open, setOpen }: IModalProps) => {
       <JPForm onSubmit={handleUserUpdate}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={12}>
-            <JPInput label="Name" name="name" fullWidth={true} />
+            <JPInput
+              label="Name"
+              name="name"
+              fullWidth={true}
+              defaultValue={data?.name}
+            />
           </Grid>
         </Grid>
         <Button

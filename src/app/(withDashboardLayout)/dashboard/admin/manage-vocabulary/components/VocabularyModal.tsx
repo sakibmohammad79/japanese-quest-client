@@ -5,23 +5,29 @@ import {
   useGetSingleLessonQuery,
   useUpdateLessonMutation,
 } from "@/redux/api/lessonApi";
+import {
+  useGetSingleVocabularyQuery,
+  useUpdateVocabularyMutation,
+} from "@/redux/api/vobulary.Api";
 import { Button, CircularProgress, Grid } from "@mui/material";
 import React, { useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
+
 interface IModalProps {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  lessonId: string;
+  vocabularyId: string;
 }
-const LessonModal = ({ open, setOpen, lessonId }: IModalProps) => {
-  const { data } = useGetSingleLessonQuery(lessonId);
+const VocabularyModal = ({ open, setOpen, vocabularyId }: IModalProps) => {
   const [loading, setLoading] = useState(false);
-  const [updateLesson] = useUpdateLessonMutation();
-  const handleLessonUpdate = async (value: FieldValues) => {
+  const { data, isLoading } = useGetSingleVocabularyQuery(vocabularyId);
+  const [updateVocabulary] = useUpdateVocabularyMutation();
+
+  const handleVocabularyUpdate = async (value: FieldValues) => {
     setLoading(true);
     try {
-      const res = await updateLesson({ data: value, id: data?.id });
+      const res = await updateVocabulary({ data: value, id: data?.id });
       if (res?.data?.id) {
         toast.success("Lesson Update successfully!");
         setOpen(false);
@@ -36,22 +42,38 @@ const LessonModal = ({ open, setOpen, lessonId }: IModalProps) => {
 
   return (
     <JPModal open={open} setOpen={setOpen} title="Update Lesson">
-      <JPForm onSubmit={handleLessonUpdate}>
+      <JPForm onSubmit={handleVocabularyUpdate}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={12} md={12}>
             <JPInput
-              label="Name"
-              name="name"
+              label="Word"
+              name="word"
               fullWidth={true}
-              defaultValue={data?.name}
+              defaultValue={data?.word}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
             <JPInput
-              label="Description"
-              name="description"
+              label="Pronunciation"
+              name="pronunciation"
               fullWidth={true}
-              defaultValue={data?.description}
+              defaultValue={data?.pronunciation}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <JPInput
+              label="Meaning"
+              name="meaning"
+              fullWidth={true}
+              defaultValue={data?.meaning}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <JPInput
+              label="WhenToSay"
+              name="whenToSay"
+              fullWidth={true}
+              defaultValue={data?.whenToSay}
             />
           </Grid>
         </Grid>
@@ -64,7 +86,7 @@ const LessonModal = ({ open, setOpen, lessonId }: IModalProps) => {
           {loading ? (
             <CircularProgress size={24} sx={{ color: "white" }} />
           ) : (
-            "Update Lesson"
+            "Update Vocabulary"
           )}
         </Button>
       </JPForm>
@@ -72,4 +94,4 @@ const LessonModal = ({ open, setOpen, lessonId }: IModalProps) => {
   );
 };
 
-export default LessonModal;
+export default VocabularyModal;

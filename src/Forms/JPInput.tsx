@@ -11,6 +11,7 @@ interface IInputProps {
   required?: boolean;
   rows?: number;
   multiline?: boolean;
+  defaultValue?: string;
 }
 const JPInput = ({
   name,
@@ -23,6 +24,7 @@ const JPInput = ({
   sx,
   placeHolder,
   required,
+  defaultValue,
 }: IInputProps) => {
   const { control } = useFormContext();
   return (
@@ -44,6 +46,7 @@ const JPInput = ({
           required={required}
           error={!!error?.message}
           helperText={error?.message}
+          defaultValue={defaultValue}
         />
       )}
     />

@@ -5,7 +5,7 @@ import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
 import Swal from "sweetalert2";
-
+import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDebounced } from "@/redux/hooks";
@@ -13,8 +13,11 @@ import {
   useDeleteVocabularyMutation,
   useGetAllVocabularyQuery,
 } from "@/redux/api/vobulary.Api";
+import LessonModal from "../manage-lesson/components/LessonModal";
+import VocabularyModal from "./components/VocabularyModal";
 
 const ManageVocabulary = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const query: Record<string, any> = {};
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedValue = useDebounced({ searchQuery: searchQuery, delay: 900 });
@@ -95,9 +98,22 @@ const ManageVocabulary = () => {
       headerAlign: "center",
       renderCell: ({ row }) => {
         return (
-          <IconButton onClick={() => handleDelete(row?.id)} aria-label="delete">
-            <DeleteIcon sx={{ color: "red" }} />
-          </IconButton>
+          <>
+            <IconButton
+              onClick={() => handleDelete(row?.id)}
+              aria-label="delete"
+            >
+              <DeleteIcon sx={{ color: "red" }} />
+            </IconButton>
+            <IconButton sx={{ py: 2 }} onClick={() => setIsModalOpen(true)}>
+              <EditLocationAltIcon sx={{ color: "red" }} />
+            </IconButton>
+            <VocabularyModal
+              open={isModalOpen}
+              setOpen={setIsModalOpen}
+              vocabularyId={row?.id}
+            />
+          </>
         );
       },
     },
