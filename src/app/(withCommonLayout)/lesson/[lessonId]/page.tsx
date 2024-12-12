@@ -3,9 +3,6 @@ import React from "react";
 import {
   Box,
   Typography,
-  Card,
-  CardMedia,
-  CardContent,
   Grid,
   CircularProgress,
   Stack,
@@ -14,10 +11,7 @@ import {
 } from "@mui/material";
 import { useGetSingleLessonQuery } from "@/redux/api/lessonApi";
 import Image from "next/image";
-import {
-  useGetAllVocabularyByLessonQuery,
-  useGetAllVocabularyQuery,
-} from "@/redux/api/vobulary.Api";
+import { useGetAllVocabularyByLessonQuery } from "@/redux/api/vobulary.Api";
 
 const LessonDetails = ({ params }: { params: any }) => {
   const { data, isLoading } = useGetSingleLessonQuery(params?.lessonId);
@@ -112,14 +106,14 @@ const LessonDetails = ({ params }: { params: any }) => {
               <Grid container spacing={2}>
                 <Grid xs={12} md={6} lg={6}>
                   <Typography fontWeight={600} fontSize={20} color="#0A303A">
-                    Number Of Vocabulary:
+                    Number Of Vocabulary
                   </Typography>
                   <Typography
                     fontWeight={600}
                     color="primary.main"
                     fontSize={20}
                   >
-                    {vocabularies.length}
+                    {vocabularies?.length}
                   </Typography>
                 </Grid>
                 <Grid xs={6} md={4} lg={3}>
@@ -137,7 +131,7 @@ const LessonDetails = ({ params }: { params: any }) => {
               </Grid>
             </Box>
           </Box>
-          <Button sx={{ mt: 4 }}>Read All Vocabulary</Button>
+          <Button sx={{ mt: 4 }}>All vocabulary for this lesson</Button>
         </Box>
       </Stack>
     </Box>

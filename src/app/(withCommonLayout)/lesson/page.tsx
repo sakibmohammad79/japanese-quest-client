@@ -21,6 +21,7 @@ const LessonPage = () => {
               imageUrl={lesson?.imageUrl}
               name={lesson?.name}
               id={lesson?.id}
+              lessonNumber={lesson?.lessonNumber}
             />
           </Grid>
         ))}
