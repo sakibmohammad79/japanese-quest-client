@@ -8,14 +8,18 @@ import Swal from "sweetalert2";
 import Image from "next/image";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
 import { useDebounced } from "@/redux/hooks";
 import { useDeleteUserMutation, useGetAllUserQuery } from "@/redux/api/userApi";
 import {
   useDeleteLessonMutation,
   useGetAllLessonQuery,
+  usePublishLessonMutation,
 } from "@/redux/api/lessonApi";
+import LessonModal from "./components/LessonModal";
 
 const ManageLesson = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const query: Record<string, any> = {};
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedValue = useDebounced({ searchQuery: searchQuery, delay: 900 });
@@ -25,6 +29,7 @@ const ManageLesson = () => {
   const { data, isLoading } = useGetAllLessonQuery({ ...query });
   const lessons = data?.lessons;
   const [deleteLesson] = useDeleteLessonMutation();
+  const [publishLesson] = usePublishLessonMutation();
 
   const handleDelete = async (id: string) => {
     const result = await Swal.fire({
@@ -47,6 +52,15 @@ const ManageLesson = () => {
       Swal.fire("Deleted!", "Lesson, has been deleted.", "success");
     } else {
       Swal.fire("Cancelled", "Lesson item is safe :)", "info");
+    }
+  };
+
+  const handlePublished = async (id: string) => {
+    console.log(id);
+    try {
+      await publishLesson(id);
+    } catch (err: any) {
+      console.error(err);
     }
   };
 
@@ -111,10 +125,14 @@ const ManageLesson = () => {
       headerAlign: "center",
       flex: 1,
       renderCell: ({ row }) => {
+        if (row?.isPublish) {
+          return <Chip label={"Published"} color={"info"} />;
+        }
         return (
           <Chip
-            label={row?.isPublish === true ? "true" : "false"}
-            color={row?.isPublish === "ACTIVE" ? "success" : "error"}
+            label={"Publish"}
+            color={"primary"}
+            onClick={() => handlePublished(row?.id)}
           />
         );
       },
@@ -127,9 +145,22 @@ const ManageLesson = () => {
       headerAlign: "center",
       renderCell: ({ row }) => {
         return (
-          <IconButton onClick={() => handleDelete(row?.id)} aria-label="delete">
-            <DeleteIcon sx={{ color: "red" }} />
-          </IconButton>
+          <>
+            <IconButton
+              onClick={() => handleDelete(row?.id)}
+              aria-label="delete"
+            >
+              <DeleteIcon sx={{ color: "red" }} />
+            </IconButton>
+            <IconButton sx={{ py: 2 }} onClick={() => setIsModalOpen(true)}>
+              <EditLocationAltIcon sx={{ color: "red" }} />
+            </IconButton>
+            <LessonModal
+              open={isModalOpen}
+              setOpen={setIsModalOpen}
+              lessonId={row?.id}
+            />
+          </>
         );
       },
     },

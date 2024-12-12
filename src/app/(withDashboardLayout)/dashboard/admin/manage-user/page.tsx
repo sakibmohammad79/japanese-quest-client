@@ -8,10 +8,19 @@ import Swal from "sweetalert2";
 import Image from "next/image";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
 import { useDebounced } from "@/redux/hooks";
-import { useDeleteUserMutation, useGetAllUserQuery } from "@/redux/api/userApi";
+import {
+  useDeleteUserMutation,
+  useGetAllUserQuery,
+  useMakeAdminMutation,
+  useMakeUserMutation,
+} from "@/redux/api/userApi";
+import { toast } from "sonner";
+import UserModal from "./components/UserModal";
 
 const UserPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const query: Record<string, any> = {};
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedValue = useDebounced({ searchQuery: searchQuery, delay: 900 });
@@ -21,6 +30,8 @@ const UserPage = () => {
   const { data, isLoading } = useGetAllUserQuery({ ...query });
   const users = data?.users;
   const [deleteUser] = useDeleteUserMutation();
+  const [makeUser] = useMakeUserMutation();
+  const [makeAdmin] = useMakeAdminMutation();
 
   const handleDelete = async (id: string) => {
     const result = await Swal.fire({
@@ -43,6 +54,33 @@ const UserPage = () => {
       Swal.fire("Deleted!", "User, has been deleted.", "success");
     } else {
       Swal.fire("Cancelled", "Your item is safe :)", "info");
+    }
+  };
+
+  const handleMakeUser = async (id: string) => {
+    try {
+      const res = await makeUser(id);
+      console.log(res);
+      if (res?.data?.id) {
+        toast.success("This user now not admin!");
+      } else {
+        toast.error("Something Went Wrong!");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleMakeAdmin = async (id: string) => {
+    try {
+      const res = await makeAdmin(id);
+      console.log(res);
+      if (res?.data?.id) {
+        toast.success("This user now Admin!");
+      } else {
+        toast.error("Something Went Wrong!");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -101,17 +139,45 @@ const UserPage = () => {
       flex: 1,
     },
 
+    // {
+    //   field: "role",
+    //   headerName: "Roles",
+    //   align: "center",
+    //   headerAlign: "center",
+    //   flex: 1,
+    //   renderCell: ({ row }) => {
+    //     return (
+    //       <Chip
+    //         label={row?.role}
+    //         color={row?.role === "ADMIN" ? "secondary" : "info"}
+    //         variant="outlined"
+    //       />
+    //     );
+    //   },
+    // },
     {
       field: "role",
-      headerName: "Role",
+      headerName: "Role Update",
       align: "center",
       headerAlign: "center",
       flex: 1,
       renderCell: ({ row }) => {
+        if (row.role === "ADMIN") {
+          return (
+            <Chip
+              label={"Make User"}
+              variant="outlined"
+              color={row?.role === "ADMIN" ? "info" : "secondary"}
+              onClick={() => handleMakeUser(row?.id)}
+            />
+          );
+        }
         return (
           <Chip
-            label={row?.role}
-            color={row?.role === "ADMIN" ? "secondary" : "info"}
+            label={"Make Admin"}
+            variant="outlined"
+            color={row?.role === "USER" ? "secondary" : "info"}
+            onClick={() => handleMakeAdmin(row?.id)}
           />
         );
       },
@@ -139,9 +205,19 @@ const UserPage = () => {
       headerAlign: "center",
       renderCell: ({ row }) => {
         return (
-          <IconButton onClick={() => handleDelete(row?.id)} aria-label="delete">
-            <DeleteIcon sx={{ color: "red" }} />
-          </IconButton>
+          <>
+            <IconButton
+              onClick={() => handleDelete(row?.id)}
+              aria-label="delete"
+            >
+              <DeleteIcon sx={{ color: "red" }} />
+            </IconButton>
+
+            <IconButton sx={{ py: 2 }} onClick={() => setIsModalOpen(true)}>
+              <EditLocationAltIcon sx={{ color: "red" }} />
+            </IconButton>
+            <UserModal open={isModalOpen} setOpen={setIsModalOpen} />
+          </>
         );
       },
     },

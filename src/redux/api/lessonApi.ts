@@ -28,13 +28,13 @@ const lessonApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.lesson],
     }),
-    // getSingleUser: build.query({
-    //   query: (id: string) => ({
-    //     url: `/user/${id}`,
-    //     method: "GET",
-    //   }),
-    //   providesTags: [tagTypes.user],
-    // }),
+    getSingleLesson: build.query({
+      query: (id: string) => ({
+        url: `/lesson/${id}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.lesson],
+    }),
     deleteLesson: build.mutation({
       query: (id) => ({
         url: `/lesson/${id}`,
@@ -42,25 +42,22 @@ const lessonApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.lesson],
     }),
-
-    // updateUser: build.mutation({
-    //   query: (arg: any) => ({
-    //     url: `/user/${arg.id}`,
-    //     method: "PATCH",
-    //     contentType: "application/json",
-    //     data: arg.data,
-    //   }),
-    //   invalidatesTags: [tagTypes.user],
-    // }),
-    // updateUserStatus: build.mutation({
-    //   query: (arg: any) => ({
-    //     url: `/user/${arg?.id}`,
-    //     method: "PATCH",
-    //     contentType: "application/json",
-    //     data: arg?.data,
-    //   }),
-    //   invalidatesTags: [tagTypes.user],
-    // }),
+    updateLesson: build.mutation({
+      query: (arg: any) => ({
+        url: `/lesson/${arg.id}`,
+        method: "PATCH",
+        contentType: "application/json",
+        data: arg.data,
+      }),
+      invalidatesTags: [tagTypes.lesson],
+    }),
+    publishLesson: build.mutation({
+      query: (id: string) => ({
+        url: `/lesson/publish/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: [tagTypes.lesson],
+    }),
   }),
 });
 
@@ -68,4 +65,7 @@ export const {
   useGetAllLessonQuery,
   useDeleteLessonMutation,
   useCreateLessonMutation,
+  usePublishLessonMutation,
+  useGetSingleLessonQuery,
+  useUpdateLessonMutation,
 } = lessonApi;
