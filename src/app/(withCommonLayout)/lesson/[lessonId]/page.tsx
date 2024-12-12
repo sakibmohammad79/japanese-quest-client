@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -12,48 +12,66 @@ import {
 import { useGetSingleLessonQuery } from "@/redux/api/lessonApi";
 import Image from "next/image";
 import { useGetAllVocabularyByLessonQuery } from "@/redux/api/vobulary.Api";
-import Link from "next/link";
+import Confetti from "react-confetti";
+import { useRouter } from "next/navigation";
 
 const LessonDetails = ({ params }: { params: any }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
   const { lessonId } = params;
   const { data, isLoading } = useGetSingleLessonQuery(params?.lessonId);
   const { data: vocabulary, isLoading: VocabularyLoading } =
     useGetAllVocabularyByLessonQuery(params?.lessonId);
-  if (VocabularyLoading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "80vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-  if (isLoading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "80vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-  const { name, description, content, imageUrl, id } = data;
 
+  if (VocabularyLoading || isLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  const { name, description, content, imageUrl, id } = data;
   const vocabularies = vocabulary?.vocabularies;
+
+  const pronounceWord = (word: string) => {
+    const utterance = new SpeechSynthesisUtterance(word);
+    utterance.lang = "ja-JP"; // Change language as needed
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const handleNext = () => {
+    if (currentIndex < vocabularies.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+  const router = useRouter();
+  const handleComplete = () => {
+    setShowConfetti(true);
+    setTimeout(() => {
+      router.push("/lesson");
+    }, 3000);
+  };
+
+  const currentVocabulary = vocabularies ? vocabularies[currentIndex] : null;
 
   return (
     <Box sx={{ backgroundColor: "#F4F1EA", py: 16 }}>
       <Stack justifyContent="center" alignItems="center">
+        {showConfetti && <Confetti />}
         <Box
           sx={{
             backgroundColor: "white",
@@ -81,7 +99,7 @@ const LessonDetails = ({ params }: { params: any }) => {
                 width={800}
                 src={imageUrl}
                 alt="lesson_image"
-              ></Image>
+              />
             </Box>
             <Typography
               mb={2}
@@ -102,7 +120,7 @@ const LessonDetails = ({ params }: { params: any }) => {
             >
               Vocabulary Information
             </Typography>
-            <Divider sx={{ mb: 2 }}></Divider>
+            <Divider sx={{ mb: 2 }} />
 
             <Box ml={2} pt={2}>
               <Grid container spacing={2}>
@@ -127,15 +145,71 @@ const LessonDetails = ({ params }: { params: any }) => {
                     color="primary.main"
                     fontSize={20}
                   >
-                    30 Minute
+                    10 Minute
                   </Typography>
                 </Grid>
               </Grid>
             </Box>
           </Box>
-          <Link href={`/lesson/${lessonId}/vocabulary`}>
-            <Button sx={{ mt: 4 }}>All vocabulary for this lesson</Button>
-          </Link>
+
+          {/* Vocabulary Details */}
+          {currentVocabulary && (
+            <Box mt={4} sx={{ textAlign: "center" }}>
+              <Box sx={{ padding: "20px", borderRadius: "8px", boxShadow: 2 }}>
+                <Typography variant="h4" component="h2">
+                  {currentVocabulary.word}
+                </Typography>
+                <Typography variant="body1" sx={{ marginTop: 2 }}>
+                  Pronunciation: {currentVocabulary.pronunciation}
+                </Typography>
+                <Typography variant="body1" sx={{ marginTop: 2 }}>
+                  Meaning: {currentVocabulary.meaning}
+                </Typography>
+                <Typography variant="body1" sx={{ marginTop: 2 }}>
+                  When to Say: {currentVocabulary.whenToSay}
+                </Typography>
+                <Box mt={4}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => pronounceWord(currentVocabulary.word)}
+                  >
+                    Pronounce
+                  </Button>
+                </Box>
+                <Box mt={2}>
+                  <Button
+                    variant="outlined"
+                    onClick={handlePrevious}
+                    disabled={currentIndex === 0}
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={handleNext}
+                    sx={{ marginLeft: "16px" }}
+                    disabled={currentIndex === vocabularies.length - 1}
+                  >
+                    Next
+                  </Button>
+                </Box>
+              </Box>
+            </Box>
+          )}
+
+          {/* Show Complete button when all vocabularies have been shown */}
+          {currentIndex === vocabularies?.length - 1 && (
+            <Box mt={4}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleComplete}
+              >
+                Complete
+              </Button>
+            </Box>
+          )}
         </Box>
       </Stack>
     </Box>
