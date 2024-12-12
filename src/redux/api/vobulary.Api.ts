@@ -28,6 +28,20 @@ const vocabularyApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.vocabulary],
     }),
+    getAllVocabularyByLesson: build.query({
+      query: (id: string) => ({
+        url: `/vocabulary/lesson/${id}`,
+        method: "GET",
+        // params: arg,
+      }),
+      transformResponse: (response: any, meta: TMeta) => {
+        return {
+          vocabularies: response,
+          meta,
+        };
+      },
+      providesTags: [tagTypes.vocabulary],
+    }),
     getSingleVocabulary: build.query({
       query: (id: string) => ({
         url: `/vocabulary/${id}`,
@@ -61,4 +75,5 @@ export const {
   useCreateVocabularyMutation,
   useGetSingleVocabularyQuery,
   useUpdateVocabularyMutation,
+  useGetAllVocabularyByLessonQuery,
 } = vocabularyApi;
