@@ -9,8 +9,14 @@ interface IFileProps {
   name: string;
   label?: string;
   sx?: SxProps;
+  required: boolean;
 }
-export default function JPFileUpload({ name, label, sx }: IFileProps) {
+export default function JPFileUpload({
+  name,
+  label,
+  sx,
+  required,
+}: IFileProps) {
   const { control } = useFormContext();
   return (
     <Controller
@@ -36,6 +42,7 @@ export default function JPFileUpload({ name, label, sx }: IFileProps) {
                 onChange((e?.target as HTMLInputElement).files?.[0])
               }
               style={{ display: "none" }}
+              required={required}
             />
           </Button>
         );

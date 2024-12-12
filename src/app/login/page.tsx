@@ -19,7 +19,8 @@ import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 import { useState } from "react";
-import { storeUserInfo } from "@/services/auth.services";
+import { getUserInfo, storeUserInfo } from "@/services/auth.services";
+import { userLoginValidationSchema } from "@/validations/userValidation";
 
 const defaultValues = {
   email: "",
@@ -31,15 +32,19 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (data: FieldValues) => {
-    console.log(data);
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       const res = await UserLogin(data);
-      console.log(res);
       if (res?.data?.accessToken) {
         storeUserInfo(res?.data?.accessToken);
-        router.push("/");
-        toast.success(res?.message);
+        const { role } = getUserInfo();
+        if (role == "admin") {
+          router.push("/dashboard/admin");
+          toast.success(res?.message);
+        } else if (role == "user") {
+          router.push("/");
+          toast.success(res?.message);
+        }
       } else {
         toast.error(res?.message);
       }
@@ -47,7 +52,7 @@ const LoginPage = () => {
       console.log(err.message);
       toast.error("An error occurred while logging in.");
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -86,8 +91,8 @@ const LoginPage = () => {
           <Box sx={{ py: 2 }}>
             <JPForm
               onSubmit={handleLogin}
-              // resolver={zodResolver(userRegisterValidationSchema)}
-              // defaultValues={defaultValues}
+              resolver={zodResolver(userLoginValidationSchema)}
+              defaultValues={defaultValues}
             >
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={12} md={6}>

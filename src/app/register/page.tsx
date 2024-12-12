@@ -24,12 +24,12 @@ import { useRouter } from "next/navigation";
 const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
 
 const RegisterPage = () => {
-  const [loading, setLoading] = useState(false); // State to handle loading
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const handleRegister = async (value: FieldValues) => {
     console.log("Input values:", value);
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
       // Check if file is provided
@@ -133,14 +133,15 @@ const RegisterPage = () => {
           </Stack>
 
           <Box sx={{ py: 2 }}>
-            <JPForm
-              onSubmit={handleRegister}
-              // resolver={zodResolver(userRegisterValidationSchema)}
-              // defaultValues={defaultValues}
-            >
+            <JPForm onSubmit={handleRegister}>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={12} md={6}>
-                  <JPInput label="Name" name="name" fullWidth={true} />
+                  <JPInput
+                    label="Name"
+                    name="name"
+                    fullWidth={true}
+                    required={true}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
                   <JPInput
@@ -148,6 +149,7 @@ const RegisterPage = () => {
                     name="email"
                     fullWidth={true}
                     type="email"
+                    required={true}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
@@ -156,10 +158,11 @@ const RegisterPage = () => {
                     name="password"
                     fullWidth={true}
                     type="password"
+                    required={true}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
-                  <JPFileUpload label="Photo" name="file" />
+                  <JPFileUpload label="Photo" name="file" required={true} />
                 </Grid>
               </Grid>
               <Button
