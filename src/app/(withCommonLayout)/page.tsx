@@ -24,7 +24,7 @@ const HomePage = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        background: "linear-gradient(145deg, #3a3a3a, #121212)", // Gradient background
+        background: "linear-gradient(145deg, #3a3a3a, #121212)",
         padding: 3,
       }}
     >
@@ -34,11 +34,11 @@ const HomePage = () => {
           gutterBottom
           align="center"
           sx={{
-            color: "white", // White text color
+            color: "white",
             fontWeight: 700,
             letterSpacing: 2,
             marginBottom: 3,
-            fontFamily: '"Roboto", sans-serif', // Modern font
+            fontFamily: '"Roboto", sans-serif',
           }}
         >
           Welcome to Your Learning Portal
@@ -49,7 +49,7 @@ const HomePage = () => {
           paragraph
           align="center"
           sx={{
-            color: "white", // White text color
+            color: "white",
             marginBottom: 4,
             fontSize: "1.1rem",
             fontFamily: '"Roboto", sans-serif',
@@ -70,12 +70,12 @@ const HomePage = () => {
             padding: "14px 28px",
             borderRadius: 4,
             boxShadow: 6,
-            marginBottom: 3, // Adds space between buttons
+            marginBottom: 3,
             transition: "all 0.3s ease-in-out",
             "&:hover": {
               boxShadow: 12,
               transform: "scale(1.05)",
-              backgroundColor: "#1976d2", // Custom hover color
+              backgroundColor: "#1976d2",
             },
             fontFamily: '"Roboto", sans-serif',
           }}

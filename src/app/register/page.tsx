@@ -28,7 +28,6 @@ const RegisterPage = () => {
 
   const router = useRouter();
   const handleRegister = async (value: FieldValues) => {
-    console.log("Input values:", value);
     setLoading(true);
 
     try {
@@ -58,7 +57,7 @@ const RegisterPage = () => {
         throw new Error("Image upload failed. Please try again.");
       }
       const imageUrl = imgUploadData?.data?.url;
-      console.log("Image uploaded successfully:", imageUrl);
+
       // Prepare user registration payload
       const payload = {
         password: value.password,
@@ -68,11 +67,10 @@ const RegisterPage = () => {
           email: value.email,
         },
       };
-      console.log("Payload for registration:", payload);
 
       // Register user
       const registrationRes = await UserRegister(payload);
-      console.log(registrationRes);
+
       // Check if user registration was successful
       if (registrationRes?.success) {
         // User login

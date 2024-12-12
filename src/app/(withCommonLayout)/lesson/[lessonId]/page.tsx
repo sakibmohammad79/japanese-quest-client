@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 const LessonDetails = ({ params }: { params: any }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
-  const { lessonId } = params;
+  const router = useRouter();
   const { data, isLoading } = useGetSingleLessonQuery(params?.lessonId);
   const { data: vocabulary, isLoading: VocabularyLoading } =
     useGetAllVocabularyByLessonQuery(params?.lessonId);
@@ -58,7 +58,7 @@ const LessonDetails = ({ params }: { params: any }) => {
       setCurrentIndex(currentIndex - 1);
     }
   };
-  const router = useRouter();
+
   const handleComplete = () => {
     setShowConfetti(true);
     setTimeout(() => {

@@ -2,10 +2,6 @@ import JPModal from "@/components/Shared/Modal/JPModal";
 import JPForm from "@/Forms/JPForm";
 import JPInput from "@/Forms/JPInput";
 import {
-  useGetSingleLessonQuery,
-  useUpdateLessonMutation,
-} from "@/redux/api/lessonApi";
-import {
   useGetSingleVocabularyQuery,
   useUpdateVocabularyMutation,
 } from "@/redux/api/vobulary.Api";

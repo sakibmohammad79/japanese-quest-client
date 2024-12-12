@@ -6,8 +6,10 @@ import { useGetAllLessonQuery } from "@/redux/api/lessonApi";
 
 const LessonPage = () => {
   const { data, isLoading } = useGetAllLessonQuery({});
+  if (isLoading) {
+    return <Typography>Loading...</Typography>;
+  }
   const lessons = data?.lessons;
-
   return (
     <Box sx={{ flexGrow: 1, padding: 2 }}>
       <Typography variant="h4" gutterBottom textAlign="center">

@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, Chip, Stack, TextField, Typography } from "@mui/material";
+import { Box, Chip, Stack, TextField, Typography } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -10,7 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
 import { useDebounced } from "@/redux/hooks";
-import { useDeleteUserMutation, useGetAllUserQuery } from "@/redux/api/userApi";
+
 import {
   useDeleteLessonMutation,
   useGetAllLessonQuery,
@@ -196,7 +196,7 @@ const ManageLesson = () => {
           />
           {(!lessons || lessons.length === 0) && (
             <Typography sx={{ textAlign: "center", mt: 2, pb: 2 }} variant="h6">
-              No pets found!
+              No lesson found!
             </Typography>
           )}
         </Paper>

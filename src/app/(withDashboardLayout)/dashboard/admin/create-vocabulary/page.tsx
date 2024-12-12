@@ -80,7 +80,12 @@ const CreateVocabularyPage = () => {
             <JPForm onSubmit={handleCreateVocabulary}>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={12} md={6}>
-                  <JPInput label="Word" name="word" fullWidth={true} />
+                  <JPInput
+                    label="Word"
+                    name="word"
+                    fullWidth={true}
+                    required={true}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
                   <JPInput
@@ -88,6 +93,7 @@ const CreateVocabularyPage = () => {
                     name="pronunciation"
                     fullWidth={true}
                     type="text"
+                    required={true}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
@@ -96,6 +102,7 @@ const CreateVocabularyPage = () => {
                     name="meaning"
                     fullWidth={true}
                     type="text"
+                    required={true}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
@@ -104,6 +111,7 @@ const CreateVocabularyPage = () => {
                     name="whenToSay"
                     fullWidth={true}
                     type="text"
+                    required={true}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
@@ -111,6 +119,7 @@ const CreateVocabularyPage = () => {
                     label="Select Lesson"
                     name="lessonId"
                     fullWidth={true}
+                    required={true}
                     options={lessons?.map((lesson: any) => ({
                       value: lesson?.id,
                       label: lesson?.name,

@@ -6,6 +6,9 @@ import { useGetAllTutorialQuery } from "@/redux/api/tutorialApi";
 
 const TutorialPage = () => {
   const { data, isLoading } = useGetAllTutorialQuery({});
+  if (isLoading) {
+    return <Typography>Loading...</Typography>;
+  }
   const videos = data?.tutorials;
   return (
     <Box sx={{ flexGrow: 1, padding: 2 }}>

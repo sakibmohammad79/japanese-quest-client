@@ -1,5 +1,4 @@
 "use client";
-import JPFileUpload from "@/Forms/JPFileUploader";
 import JPForm from "@/Forms/JPForm";
 import JPInput from "@/Forms/JPInput";
 import { UserLogin } from "@/services/actions/userLogin";

@@ -139,22 +139,6 @@ const UserPage = () => {
       flex: 1,
     },
 
-    // {
-    //   field: "role",
-    //   headerName: "Roles",
-    //   align: "center",
-    //   headerAlign: "center",
-    //   flex: 1,
-    //   renderCell: ({ row }) => {
-    //     return (
-    //       <Chip
-    //         label={row?.role}
-    //         color={row?.role === "ADMIN" ? "secondary" : "info"}
-    //         variant="outlined"
-    //       />
-    //     );
-    //   },
-    // },
     {
       field: "role",
       headerName: "Role Update",
@@ -253,7 +237,7 @@ const UserPage = () => {
           />
           {(!users || users.length === 0) && (
             <Typography sx={{ textAlign: "center", mt: 2, pb: 2 }} variant="h6">
-              No pets found!
+              No User found!
             </Typography>
           )}
         </Paper>

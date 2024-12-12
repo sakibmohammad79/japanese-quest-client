@@ -106,7 +106,12 @@ const CreateLessonPage = () => {
             <JPForm onSubmit={handleCreateLesson}>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={12} md={6}>
-                  <JPInput label="Name" name="name" fullWidth={true} />
+                  <JPInput
+                    label="Name"
+                    name="name"
+                    fullWidth={true}
+                    required={true}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
                   <JPInput
@@ -114,6 +119,7 @@ const CreateLessonPage = () => {
                     name="description"
                     fullWidth={true}
                     type="text"
+                    required={true}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
@@ -122,11 +128,12 @@ const CreateLessonPage = () => {
                     name="content"
                     fullWidth={true}
                     type="text"
+                    required={true}
                   />
                 </Grid>
 
                 <Grid item xs={12} sm={12} md={6}>
-                  <JPFileUpload label="Image" name="file" />
+                  <JPFileUpload label="Image" name="file" required={true} />
                 </Grid>
               </Grid>
               <Button

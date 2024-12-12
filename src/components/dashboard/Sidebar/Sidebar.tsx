@@ -27,11 +27,11 @@ const Sidebar = () => {
         <Image
           height={50}
           width={50}
-          src="https://i.postimg.cc/8cJ5XMDB/adopt-a-pet-cute-puppies-in-the-box-illustration-in-flat-style-free-vector.jpg"
-          alt="Pet-icon"
+          src="https://i.postimg.cc/CLDN0X9F/language.jpg"
+          alt="language-icon"
         ></Image>
         <Typography variant="h6" component="h1">
-          Pet Adoption
+          Japanse Quest
         </Typography>
       </Stack>
       <List>

@@ -1,16 +1,11 @@
 import { USER_ROLE } from "@/constants/role";
 import { DrawerItem, UserRole } from "@/types";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
-import PetsIcon from "@mui/icons-material/Pets";
-import AddHomeWorkIcon from "@mui/icons-material/AddHomeWork";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import KeyIcon from "@mui/icons-material/Key";
-import StarIcon from "@mui/icons-material/Star";
-
-import PublishedWithChangesIcon from "@mui/icons-material/PublishedWithChanges";
-
+import GTranslateIcon from "@mui/icons-material/GTranslate";
+import LoupeIcon from "@mui/icons-material/Loupe";
+import PlayLessonIcon from "@mui/icons-material/PlayLesson";
 export const DrawerItems = (role: UserRole): DrawerItem[] => {
   const roleMenus: DrawerItem[] = [];
 
@@ -31,57 +26,25 @@ export const DrawerItems = (role: UserRole): DrawerItem[] => {
         {
           title: "Manage Lesson",
           path: `${role}/manage-lesson`,
-          icon: PetsIcon,
+          icon: PlayLessonIcon,
         },
         {
           title: "Create Lesson",
           path: `${role}/create-lesson`,
-          icon: AddHomeWorkIcon,
+          icon: NoteAddIcon,
         },
         {
           title: "Manage Vocabulary",
           path: `${role}/manage-vocabulary`,
-          icon: AccountCircleIcon,
+          icon: GTranslateIcon,
         },
         {
           title: "Create Vocabulary",
           path: `${role}/create-vocabulary`,
-          icon: KeyIcon,
+          icon: LoupeIcon,
         }
       );
       break;
-
-    // case USER_ROLE.PET_PUBLISHER:
-    //   roleMenus.push(
-    //     {
-    //       title: "Dashboard",
-    //       path: `${role}`,
-    //       icon: DashboardIcon,
-    //     },
-    //     {
-    //       title: "Create New Pet",
-    //       path: `${role}/pet-create`,
-    //       icon: PublishedWithChangesIcon,
-    //     },
-
-    //     {
-    //       title: "Profile",
-    //       path: `${role}/profile`,
-    //       icon: AccountCircleIcon,
-    //     },
-
-    //     {
-    //       title: "Give Review",
-    //       path: `${role}/review`,
-    //       icon: StarIcon,
-    //     },
-    //     {
-    //       title: "Password Change",
-    //       path: `${role}/password-change`,
-    //       icon: KeyIcon,
-    //     }
-    //   );
-    //   break;
 
     default:
       break;

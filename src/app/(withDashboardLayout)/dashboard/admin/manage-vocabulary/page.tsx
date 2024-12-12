@@ -149,7 +149,7 @@ const ManageVocabulary = () => {
           />
           {(!vocabularies || vocabularies.length === 0) && (
             <Typography sx={{ textAlign: "center", mt: 2, pb: 2 }} variant="h6">
-              No pets found!
+              No vocabulary found!
             </Typography>
           )}
         </Paper>

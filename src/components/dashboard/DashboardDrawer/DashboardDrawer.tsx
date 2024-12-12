@@ -57,7 +57,7 @@ export default function DashboardDrawer({
           </IconButton>
           <Box>
             <Typography variant="h6" noWrap component="div">
-              Hi, Mohammad Sakib
+              Hi Learner, Welcome!
             </Typography>
           </Box>
         </Toolbar>
