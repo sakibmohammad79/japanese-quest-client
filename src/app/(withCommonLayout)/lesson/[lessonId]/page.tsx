@@ -12,8 +12,10 @@ import {
 import { useGetSingleLessonQuery } from "@/redux/api/lessonApi";
 import Image from "next/image";
 import { useGetAllVocabularyByLessonQuery } from "@/redux/api/vobulary.Api";
+import Link from "next/link";
 
 const LessonDetails = ({ params }: { params: any }) => {
+  const { lessonId } = params;
   const { data, isLoading } = useGetSingleLessonQuery(params?.lessonId);
   const { data: vocabulary, isLoading: VocabularyLoading } =
     useGetAllVocabularyByLessonQuery(params?.lessonId);
@@ -131,7 +133,9 @@ const LessonDetails = ({ params }: { params: any }) => {
               </Grid>
             </Box>
           </Box>
-          <Button sx={{ mt: 4 }}>All vocabulary for this lesson</Button>
+          <Link href={`/lesson/${lessonId}/vocabulary`}>
+            <Button sx={{ mt: 4 }}>All vocabulary for this lesson</Button>
+          </Link>
         </Box>
       </Stack>
     </Box>
