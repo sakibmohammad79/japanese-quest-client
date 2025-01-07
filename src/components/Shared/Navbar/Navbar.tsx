@@ -54,7 +54,7 @@ export default function Navbar() {
           <Typography>HOME</Typography>
         </Link>
         <Link href="/lesson">
-          <Typography>LESSON</Typography>
+          <Typography py={2}>LESSON</Typography>
         </Link>
         <Link href="/tutorial">
           <Typography>TUTORIAL</Typography>
