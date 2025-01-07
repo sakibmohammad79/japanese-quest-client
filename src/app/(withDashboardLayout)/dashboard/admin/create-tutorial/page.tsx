@@ -18,12 +18,12 @@ import { getUserInfo } from "@/services/auth.services";
 import { useCreateVocabularyMutation } from "@/redux/api/vobulary.Api";
 import JPSelect from "@/Forms/JPSelect";
 import { useRouter } from "next/navigation";
+import { useCreateTutorialMutation } from "@/redux/api/tutorialApi";
 
-const CreateVocabularyPage = () => {
+const CreateTutorial = () => {
   const router = useRouter();
-  const [createVocabulary] = useCreateVocabularyMutation();
-  const { data } = useGetAllLessonQuery({});
-  const lessons = data?.lessons;
+  const [createTutorial] = useCreateTutorialMutation();
+
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("");
 
@@ -32,24 +32,27 @@ const CreateVocabularyPage = () => {
     setUserId(userId);
   }, []);
 
-  const handleCreateVocabulary = async (value: FieldValues) => {
+  const handleCreateTutorial = async (value: FieldValues) => {
     setLoading(true);
 
     const payload = {
-      ...value,
-      adminId: userId,
+      description: value?.description,
+      title: value?.title,
+      videoUrl: value.videoUrl,
+      createdById: userId,
     };
+
     try {
-      const res = await createVocabulary(payload).unwrap();
-      console.log(res);
+      const res = await createTutorial(payload).unwrap();
+
       if (res?.id) {
-        toast.success("Vocabulary created successfully!");
-        router.push("/dashboard/admin/manage-vocabulary");
+        toast.success("New tutorial successfully successfully!");
+        router.push("/dashboard/admin/manage-tutorial");
         setLoading(false);
       }
     } catch (err) {
       console.error(err);
-      toast.error("Failed to create vocabulary!");
+      toast.error("Failed to added tutorial!");
       setLoading(false);
     }
   };
@@ -73,59 +76,38 @@ const CreateVocabularyPage = () => {
           >
             <Box>
               <Typography fontSize={24} fontWeight="bold">
-                Create New Vocabulary
+                Added New Tutorial
               </Typography>
             </Box>
           </Stack>
 
           <Box sx={{ py: 2 }}>
-            <JPForm onSubmit={handleCreateVocabulary}>
+            <JPForm onSubmit={handleCreateTutorial}>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={12} md={6}>
                   <JPInput
-                    label="Word"
-                    name="word"
+                    label="VideoUrl"
+                    name="videoUrl"
                     fullWidth={true}
                     required={true}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12} md={6}>
                   <JPInput
-                    label="Pronunciation"
-                    name="pronunciation"
+                    label="title"
+                    name="title"
                     fullWidth={true}
                     type="text"
                     required={true}
                   />
                 </Grid>
-                <Grid item xs={12} sm={12} md={6}>
+                <Grid item xs={12} sm={12} md={12}>
                   <JPInput
-                    label="Meaning"
-                    name="meaning"
+                    label="description"
+                    name="description"
                     fullWidth={true}
                     type="text"
                     required={true}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={12} md={6}>
-                  <JPInput
-                    label="When To Say"
-                    name="whenToSay"
-                    fullWidth={true}
-                    type="text"
-                    required={true}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={12} md={6}>
-                  <JPSelect
-                    label="Select Lesson"
-                    name="lessonId"
-                    fullWidth={true}
-                    required={true}
-                    options={lessons?.map((lesson: any) => ({
-                      value: lesson?.id,
-                      label: lesson?.name,
-                    }))}
                   />
                 </Grid>
               </Grid>
@@ -138,7 +120,7 @@ const CreateVocabularyPage = () => {
                 {loading ? (
                   <CircularProgress size={24} sx={{ color: "white" }} />
                 ) : (
-                  "Create New Vocabulary"
+                  "Create New Tutorial"
                 )}
               </Button>
             </JPForm>
@@ -149,4 +131,4 @@ const CreateVocabularyPage = () => {
   );
 };
 
-export default CreateVocabularyPage;
+export default CreateTutorial;

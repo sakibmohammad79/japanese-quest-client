@@ -25,7 +25,7 @@ const VocabularyModal = ({ open, setOpen, vocabularyId }: IModalProps) => {
     try {
       const res = await updateVocabulary({ data: value, id: data?.id });
       if (res?.data?.id) {
-        toast.success("Lesson Update successfully!");
+        toast.success("Vocabulary Update successfully!");
         setOpen(false);
         setLoading(false);
       } else {

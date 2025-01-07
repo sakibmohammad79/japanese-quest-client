@@ -17,9 +17,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
-import { useState } from "react";
+import React, { useState } from "react";
 import { getUserInfo, storeUserInfo } from "@/services/auth.services";
 import { userLoginValidationSchema } from "@/validations/userValidation";
+import LoginModal from "./components/LoginModal";
 
 const defaultValues = {
   email: "",
@@ -27,6 +28,7 @@ const defaultValues = {
 };
 
 const LoginPage = () => {
+  const [isModalOpen, setIsModalOpen] = React.useState<boolean>(false);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -76,7 +78,7 @@ const LoginPage = () => {
               <Image
                 height={80}
                 width={80}
-                src="https://img.icons8.com/stickers/50/language.png"
+                src="https://i.postimg.cc/gj2HQjX8/learning-japanese-language-class-logo-language-exchange-program-forum-international-communication-si.webp"
                 alt="Pet-icon"
               />
             </Box>
@@ -120,7 +122,7 @@ const LoginPage = () => {
                 {loading ? (
                   <CircularProgress size={24} sx={{ color: "white" }} />
                 ) : (
-                  "Please Register"
+                  "Please Login"
                 )}
               </Button>
             </JPForm>
@@ -132,6 +134,12 @@ const LoginPage = () => {
                 </Box>
               </Link>
             </Typography>
+          </Box>
+          <Box pt={1} sx={{ display: "flex", justifyContent: "center" }}>
+            <Button onClick={() => setIsModalOpen(true)}>
+              Demo Credentials
+            </Button>
+            <LoginModal open={isModalOpen} setOpen={setIsModalOpen} />
           </Box>
         </Box>
       </Stack>

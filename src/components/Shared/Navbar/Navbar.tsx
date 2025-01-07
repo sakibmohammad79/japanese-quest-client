@@ -10,7 +10,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-// import MenuIcon from "@mui/icons-material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Stack } from "@mui/material";
@@ -19,7 +19,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact"];
+// const navItems = ["Home", "About", "Contact"];
 
 export default function Navbar() {
   const AuthButtonLg = dynamic(
@@ -43,13 +43,22 @@ export default function Navbar() {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item) => (
+        {/* {navItems.map((item) => (
           <ListItem key={item} disablePadding>
             <ListItemButton sx={{ textAlign: "center" }}>
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
-        ))}
+        ))} */}
+        <Link href="/">
+          <Typography>HOME</Typography>
+        </Link>
+        <Link href="/lesson">
+          <Typography>LESSON</Typography>
+        </Link>
+        <Link href="/tutorial">
+          <Typography>TUTORIAL</Typography>
+        </Link>
       </List>
     </Box>
   );
@@ -66,7 +75,7 @@ export default function Navbar() {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            {/* <MenuIcon sx={{ color: "primary.main" }} /> */}
+            <MenuIcon sx={{ color: "primary.main" }} />
           </IconButton>
           <Stack
             direction="row"
@@ -97,9 +106,6 @@ export default function Navbar() {
               <Link href="/tutorial">
                 <Typography>TUTORIAL</Typography>
               </Link>
-              {/* <Link href="/">
-                <Typography>Contact</Typography>
-              </Link> */}
             </Box>
             <AuthButtonLg></AuthButtonLg>
           </Stack>

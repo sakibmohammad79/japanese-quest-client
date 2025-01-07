@@ -9,14 +9,14 @@ import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDebounced } from "@/redux/hooks";
-import {
-  useDeleteVocabularyMutation,
-  useGetAllVocabularyQuery,
-} from "@/redux/api/vobulary.Api";
-import LessonModal from "../manage-lesson/components/LessonModal";
-import VocabularyModal from "./components/VocabularyModal";
 
-const ManageVocabulary = () => {
+import {
+  useDeleteTutorialMutation,
+  useGetAllTutorialQuery,
+} from "@/redux/api/tutorialApi";
+import TutorialModal from "./components/TutorialModal";
+
+const ManageTutorial = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const query: Record<string, any> = {};
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,9 +24,9 @@ const ManageVocabulary = () => {
   if (!!debouncedValue) {
     query["searchTerm"] = debouncedValue;
   }
-  const { data, isLoading } = useGetAllVocabularyQuery({ ...query });
-  const vocabularies = data?.vocabularies;
-  const [deleteVocabulary] = useDeleteVocabularyMutation();
+  const { data, isLoading } = useGetAllTutorialQuery({ ...query });
+  const tutorials = data?.tutorials;
+  const [deleteTutorial] = useDeleteTutorialMutation();
 
   const handleDelete = async (id: string) => {
     const result = await Swal.fire({
@@ -42,13 +42,13 @@ const ManageVocabulary = () => {
 
     if (result.isConfirmed) {
       try {
-        await deleteVocabulary(id).unwrap();
+        await deleteTutorial(id).unwrap();
       } catch (err: any) {
         console.error(err);
       }
-      Swal.fire("Deleted!", "vocabulary, has been deleted.", "success");
+      Swal.fire("Deleted!", "tutorial, has been deleted.", "success");
     } else {
-      Swal.fire("Cancelled", "vocabulary item is safe :)", "info");
+      Swal.fire("Cancelled", "tutorial item is safe :)", "info");
     }
   };
 
@@ -62,29 +62,22 @@ const ManageVocabulary = () => {
 
   const columns: GridColDef[] = [
     {
-      field: "word",
-      headerName: "Word",
+      field: "title",
+      headerName: "Tutoril Title",
       align: "center",
       headerAlign: "center",
       flex: 1,
     },
     {
-      field: "pronunciation",
-      headerName: "Pronunciation",
+      field: "description",
+      headerName: "Description",
       align: "center",
       headerAlign: "center",
       flex: 1,
     },
     {
-      field: "meaning",
-      headerName: "Meaning",
-      align: "center",
-      headerAlign: "center",
-      flex: 1,
-    },
-    {
-      field: "whenToSay",
-      headerName: "When To Say",
+      field: "id",
+      headerName: "Tutorial ID",
       align: "center",
       headerAlign: "center",
       flex: 1,
@@ -108,10 +101,10 @@ const ManageVocabulary = () => {
             <IconButton sx={{ py: 2 }} onClick={() => setIsModalOpen(true)}>
               <EditLocationAltIcon sx={{ color: "red" }} />
             </IconButton>
-            <VocabularyModal
+            <TutorialModal
               open={isModalOpen}
               setOpen={setIsModalOpen}
-              vocabularyId={row?.id}
+              tutorialId={row?.id}
             />
           </>
         );
@@ -130,26 +123,26 @@ const ManageVocabulary = () => {
           color="primary.main"
           fontWeight={400}
         >
-          ALL Vocabulary:{" "}
+          ALL TUTORIAL:{" "}
         </Typography>
         <TextField
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search Vocabulary"
+          placeholder="Search Tutorial"
         ></TextField>
       </Stack>
       <Box mt={4}>
         <Paper sx={{ height: "100%", width: "100%" }}>
           <DataGrid
-            rows={vocabularies || []}
+            rows={tutorials || []}
             columns={columns}
             initialState={{ pagination: { paginationModel } }}
             pageSizeOptions={[5, 10, 20]}
             checkboxSelection
             sx={{ border: 0 }}
           />
-          {(!vocabularies || vocabularies.length === 0) && (
+          {(!tutorials || tutorials.length === 0) && (
             <Typography sx={{ textAlign: "center", mt: 2, pb: 2 }} variant="h6">
-              No vocabulary found!
+              No tutorial found!
             </Typography>
           )}
         </Paper>
@@ -158,4 +151,4 @@ const ManageVocabulary = () => {
   );
 };
 
-export default ManageVocabulary;
+export default ManageTutorial;

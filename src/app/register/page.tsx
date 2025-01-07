@@ -119,7 +119,7 @@ const RegisterPage = () => {
               <Image
                 height={80}
                 width={80}
-                src="https://img.icons8.com/stickers/50/language.png"
+                src="https://i.postimg.cc/gj2HQjX8/learning-japanese-language-class-logo-language-exchange-program-forum-international-communication-si.webp"
                 alt="Pet-icon"
               />
             </Box>

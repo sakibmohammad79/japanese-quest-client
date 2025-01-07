@@ -177,11 +177,11 @@ const ManageLesson = () => {
           color="primary.main"
           fontWeight={400}
         >
-          ALL USERS:{" "}
+          ALL Lessons:{" "}
         </Typography>
         <TextField
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search Users"
+          placeholder="Search Lesson"
         ></TextField>
       </Stack>
       <Box mt={4}>

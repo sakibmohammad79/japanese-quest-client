@@ -6,6 +6,8 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import GTranslateIcon from "@mui/icons-material/GTranslate";
 import LoupeIcon from "@mui/icons-material/Loupe";
 import PlayLessonIcon from "@mui/icons-material/PlayLesson";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import VideoSettingsIcon from "@mui/icons-material/VideoSettings";
 export const DrawerItems = (role: UserRole): DrawerItem[] => {
   const roleMenus: DrawerItem[] = [];
 
@@ -42,6 +44,16 @@ export const DrawerItems = (role: UserRole): DrawerItem[] => {
           title: "Create Vocabulary",
           path: `${role}/create-vocabulary`,
           icon: LoupeIcon,
+        },
+        {
+          title: "Create New Tutorial",
+          path: `${role}/create-tutorial`,
+          icon: YouTubeIcon,
+        },
+        {
+          title: "Manage Tutorial",
+          path: `${role}/manage-tutorial`,
+          icon: VideoSettingsIcon,
         }
       );
       break;

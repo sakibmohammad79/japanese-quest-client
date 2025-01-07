@@ -16,8 +16,11 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { useCreateLessonMutation } from "@/redux/api/lessonApi";
 import { getUserInfo } from "@/services/auth.services";
+import { useRouter } from "next/navigation";
 const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
+
 const CreateLessonPage = () => {
+  const router = useRouter();
   const { reset } = useForm();
   const [createLesson] = useCreateLessonMutation();
   const [loading, setLoading] = useState(false);
@@ -64,6 +67,7 @@ const CreateLessonPage = () => {
         const res = await createLesson(payload).unwrap();
         if (res?.id) {
           reset();
+          router.push("/dashboard/admin/manage-lesson");
           toast.success("Lesson created successfully!");
         }
       } catch (err) {
