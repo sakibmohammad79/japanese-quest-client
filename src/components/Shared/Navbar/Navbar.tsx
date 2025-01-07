@@ -43,13 +43,6 @@ export default function Navbar() {
       </Typography>
       <Divider />
       <List>
-        {/* {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))} */}
         <Link href="/">
           <Typography>HOME</Typography>
         </Link>
